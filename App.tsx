@@ -2,14 +2,7 @@ import React, {useState} from 'react';
 import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import OptionRectangle from './OptionRectangle';
 // Add the missing import statement for the optionRectangle component
-
-function verifyText(text : string) : string{
-  if (text.length >= 5)
-  {
-    return "Text is long";
-  }
-  return "Text is short";
-}
+ 
 const styles = StyleSheet.create({
   rectangle : {
 
