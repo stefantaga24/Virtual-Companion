@@ -1,118 +1,64 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, {useState} from 'react';
+import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import OptionRectangle from './OptionRectangle';
+// Add the missing import statement for the optionRectangle component
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+function verifyText(text : string) : string{
+  if (text.length >= 5)
+  {
+    return "Text is long";
+  }
+  return "Text is short";
+}
+const styles = StyleSheet.create({
+  rectangle : {
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+      width: 70,
+      height: 73,
+      backgroundColor: '#5E242D',
+      borderRadius: 30,
+  },
+  fiftyFifty: {
+    height : '50%',
+    marginTop : '50%',
+  },
+  title:{
+    color: 'black',
+    textAlign:'center',
+    fontFamily: 'Content',
+    fontWeight: "700",
+    fontSize: 25,
+  },
+  subTitle:{
+    color: 'black',
+    fontWeight: "700",
+    textAlign:'center',
+    fontFamily: 'Content',
+    fontSize: 15,
+  }
+});
+const MyApp = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={{flex: 1}}>
+      <View style = {{flex: 1}}>
+      </View>
+      <View id='containerIntro' style = {{flex:1 }}>
+          <Text style = {styles.title}>
+            Virtual Companion
+          </Text>
+          <Text style = {styles.subTitle}>
+            Colegiul National "Ion Luca Caragiale"
+          </Text>
+          <View style ={{justifyContent:'center', alignItems:'center' , flexDirection : 'row'}}>
+            <View style = {{flex:1}}>
+            <OptionRectangle name = "Elev" thisSource = './Images/Mortarboard_light.png'/>
+            <OptionRectangle name = "Profesor" thisSource = './Images/Glasses_light.png'/>
+            <OptionRectangle name = "Parinte/Tutore" thisSource = './Images/Glasses_light.png'/>
+            </View>
+          </View>
+      </View>
     </View>
   );
-}
+};
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
+export default MyApp;
