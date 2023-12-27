@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Image, StyleSheet, Text, ImageBackground, View} from 'react-native';
 import OptionRectangle from './OptionRectangle';
+import {NavigationContainer} from '@react-navigation/native';
 // Add the missing import statement for the optionRectangle component
  
 const styles = StyleSheet.create({
@@ -32,11 +33,13 @@ const styles = StyleSheet.create({
 });
 const MyApp = () => {
   return (
-    <View style={{flex: 1}}>
+    <NavigationContainer>
+    <ImageBackground style={{flex: 1}} source = {require('./Images/cara_scoala_1_1.png')}>
+
       <View style = {{flex: 1}}>
       </View>
-      <View id='containerIntro' style = {{flex:1 }}>
-          <Text style = {styles.title}>
+      <View id='containerIntro' style = {{flex:1 , backgroundColor : 'white' , borderTopRightRadius : 35 , borderTopLeftRadius: 35}}>
+          <Text style = {StyleSheet.compose(styles.title,{marginTop: 25})}  >
             Virtual Companion
           </Text>
           <Text style = {styles.subTitle}>
@@ -44,13 +47,14 @@ const MyApp = () => {
           </Text>
           <View style ={{justifyContent:'center', alignItems:'center' , flexDirection : 'row'}}>
             <View style = {{flex:1}}>
-            <OptionRectangle name = "Elev" thisSource = './Images/Mortarboard_light.png'/>
-            <OptionRectangle name = "Profesor" thisSource = './Images/Glasses_light.png'/>
-            <OptionRectangle name = "Parinte/Tutore" thisSource = './Images/Glasses_light.png'/>
+            <OptionRectangle name = "Elev" thisSource = {0}/>
+            <OptionRectangle name = "Profesor" thisSource = {1}/>
+            <OptionRectangle name = "Parinte/Tutore" thisSource = {2}/>
             </View>
           </View>
       </View>
-    </View>
+    </ImageBackground>
+    </NavigationContainer>
   );
 };
 

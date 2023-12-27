@@ -10,6 +10,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#5E242D',
         borderRadius: 30,
         left : 50,
+        justifyContent :'center',
+        alignItems : 'center',
         position: 'absolute',
     },
     transpRectangle :{
@@ -28,7 +30,12 @@ const styles = StyleSheet.create({
         fontSize: 25,
     }
 });
-function OptionRectangle ({name,thisSource} : {name : string , thisSource: string})
+
+const possibleSources = [require('./Images/Mortarboard_light.png'),
+                         require('./Images/Book_open_alt.png'),
+                         require('./Images/Glasses_light.png')];
+
+function OptionRectangle ({name,thisSource} : {name : string , thisSource: number})
 {
     return (
         <View style = {{width: "100%" , alignItems : "center",justifyContent : "center" , marginTop: "8%"}}>
@@ -36,12 +43,11 @@ function OptionRectangle ({name,thisSource} : {name : string , thisSource: strin
                 <Text style={styles.subTitle}>
                         {name}
                 </Text>
-                <Image source = {require(thisSource)}>
-
-                </Image>
             </View>
           <View style = {styles.rectangle}>
-            
+            <Image source = {possibleSources[thisSource]} style = {{height: 58 , width: 58}}>
+
+            </Image>
           </View>
         </View>
       );
