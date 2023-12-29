@@ -5,11 +5,11 @@ import { Image, View, Text } from "react-native";
 const styles = StyleSheet.create({
     rectangle: {
 
-        width: 70,
-        height: 73,
+        width: "20%",
+        height: 85,
         backgroundColor: '#5E242D',
         borderRadius: 30,
-        left: 50,
+        left: "15%",
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
@@ -17,36 +17,28 @@ const styles = StyleSheet.create({
     transpRectangle: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#D9D9D9',
+        backgroundColor: '#5E242D',
         width: "70%",
         height: 59,
         borderRadius: 30,
     },
     subTitle: {
-        color: "black",
+        color: "white",
         fontFamily: "Content",
         fontStyle: "normal",
         fontWeight: "700",
         fontSize: 25,
     }
 });
-function onPressButton({ navigation, targetPage ,name , id }: { navigation: any, targetPage: string ,name : string ,id :number }) {
-    navigation.navigate(targetPage, {name : name ,id:id });
-}
-
 const possibleSources = [require('./Images/Mortarboard_light.png'),
 require('./Images/Book_open_alt.png'),
 require('./Images/Glasses_light.png')];
 const targetPageName = ["Elev", "Profesor", "Parinte"];
-function OptionRectangle({ name, thisSource, navigation }: { name: string, thisSource: number, navigation: any }) {
+function InfoRectangle({ name, thisSource}: { name: string, thisSource: number}) {
     return (
-        <TouchableNativeFeedback onPress={() => onPressButton({
-            navigation: navigation,
-            targetPage: 'LoginPage',
-            name : targetPageName[thisSource],
-            id: thisSource,
-        })}>
-            <View  style={{ width: "100%", alignItems: "center", justifyContent: "center", marginTop: "8%" }}>
+        <View style={{height:"100%",width:"100%" , alignItems:'center' , justifyContent:'center'}}>
+            <View  style={{ width: "100%", alignItems: "center", justifyContent: "center"   }}>
+                
                 <View style={styles.transpRectangle}>
                     <Text style={styles.subTitle}>
                         {name}
@@ -58,7 +50,7 @@ function OptionRectangle({ name, thisSource, navigation }: { name: string, thisS
                     </Image>
                 </View>
             </View>
-        </TouchableNativeFeedback>
+        </View>
     );
 }
-export default OptionRectangle;
+export default InfoRectangle;

@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
 
 const FirstPage = ({navigation} :{navigation : any}) => {
   return (
-    <ImageBackground style={{flex: 1}} source = {require('./Images/cara_scoala_1_1.png')}>
+    <View style={{flex: 1}}>
 
-      <View style = {{flex: 1}}>
-      </View>
-      <View id='containerIntro' style = {{flex:1 , backgroundColor : 'white' , borderTopRightRadius : 35 , borderTopLeftRadius: 35}}>
+      <ImageBackground style = {{marginTop:"10%",position:'absolute' , height:"80%" , width:"100%"}} source = {require('./Images/imageCaragiale.png')}>
+      </ImageBackground>
+      <View id='containerIntro' style = {{ marginTop:'100%', height:'50%' , backgroundColor : 'white' , borderTopRightRadius : 35 , borderTopLeftRadius: 35}}>
           <Text style = {StyleSheet.compose(styles.title,{marginTop: 25})}  >
             Virtual Companion
           </Text>
@@ -55,7 +55,7 @@ const FirstPage = ({navigation} :{navigation : any}) => {
             </View>
           </View>
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 
