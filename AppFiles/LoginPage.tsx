@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {Image, StyleSheet, Text, ImageBackground, View, TextInput} from 'react-native';
+import {Image, StyleSheet, Text, ImageBackground, View, TextInput, TouchableNativeFeedback} from 'react-native';
 import InfoRectangle from './InfoRectangle';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import type { NativeStackScreenProps, } from '@react-navigation/native-stack';
- 
+import auth from '@react-native-firebase/auth';
+
 const styles = StyleSheet.create({
     transpRectangle: {
         justifyContent: 'center',
@@ -27,7 +28,18 @@ const styles = StyleSheet.create({
       },
 });
  
+function tryAuthentication(email : string , password : string ,navigation : any)
+{
+    auth()
+    .signInWithEmailAndPassword(email, password)
+    .then(() => {
+        navigation.navigate('FirstPage');
+    })
+    .catch(error => {
+        //navigation.navigate('FirstPage');
+    });
 
+}
 
 const LoginPage = ({route, navigation} :{route:any, navigation : any}) => { 
   const name : string = route.params.name;
@@ -55,6 +67,11 @@ const LoginPage = ({route, navigation} :{route:any, navigation : any}) => {
                     <TextInput onChangeText = {newText => setPasswordText(newText)} 
                         secureTextEntry = {true} style ={styles.transpRectangle}/>
                 </View>
+            </View>
+            <View style = {{flex:1 , alignItems:"flex-end" , justifyContent: "flex-end"}}>
+            <TouchableNativeFeedback onPress={() => tryAuthentication(emailText,passwordText,navigation)}>
+                <Image source= {require('./Images/Arrow_right.png')} style = {{marginBottom:"3%",  marginRight : "15%"}}></Image>
+            </TouchableNativeFeedback>
             </View>
         </View>
     </ImageBackground>
