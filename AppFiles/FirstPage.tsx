@@ -47,9 +47,7 @@ const FirstPage = ({navigation} :{navigation : any}) => {
   }, []);
 
   if (initializing) return null;
-  if (!user)
-  {
-    return (
+  return (
       <View style={{flex: 1}}>
   
         <ImageBackground style = {{marginTop:"10%",position:'absolute' , height:"80%" , width:"100%"}} source = {require('./Images/imageCaragiale.png')}>
@@ -70,13 +68,7 @@ const FirstPage = ({navigation} :{navigation : any}) => {
             </View>
         </View>
       </View>
-    );
-  }
-  return (
-    <View>
-      <Text> auth.get </Text>
-    </View>
-  )
+  );
 };
 
 export default FirstPage;

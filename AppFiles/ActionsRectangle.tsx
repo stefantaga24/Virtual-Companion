@@ -5,11 +5,11 @@ import { Image, View, Text } from "react-native";
 const styles = StyleSheet.create({
     rectangle: {
 
-        width: 70,
-        height: 73,
+        width: "41%",
+        height: "20%",
         backgroundColor: '#5E242D',
         borderRadius: 30,
-        left: "5%",
+        left: 50,
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
@@ -30,35 +30,27 @@ const styles = StyleSheet.create({
         fontSize: 25,
     }
 });
-function onPressButton({ navigation, targetPage ,name , id }: { navigation: any, targetPage: string ,name : string ,id :number }) {
-    navigation.navigate(targetPage, {name : name ,id:id });
+function onPressButton({ navigation, targetPage}: { navigation: any, targetPage: string}) {
+    navigation.navigate(targetPage);
 }
 
 const possibleSources = [require('./Images/Mortarboard_light.png'),
 require('./Images/Book_open_alt.png'),
 require('./Images/Glasses_light.png')];
-const targetPageName = ["Elev", "Profesor", "Parinte"];
-function OptionRectangle({ name, thisSource, navigation }: { name: string, thisSource: number, navigation: any }) {
+const targetPageName = ["Notele mele", "Orarul meu", "Asociatii" , 
+            "Evenimente", "Anunturi" , "Consiliul Elevilor", "Google Classroom" ,"Planul Scolii"];
+function ActionsRectangle({ name, thisSource, navigation }: { name: string, thisSource: number, navigation: any }) {
     return (
         <TouchableNativeFeedback onPress={() => onPressButton({
             navigation: navigation,
-            targetPage: 'LoginPage',
-            name : targetPageName[thisSource],
-            id: thisSource,
+            targetPage: targetPageName[thisSource],
         })}>
-            <View  style={{ width: "100%", alignItems: "center", justifyContent: "center", marginTop: "8%"}}>
-                <View style={styles.transpRectangle}>
-                    <Text style={styles.subTitle}>
-                        {name}
-                    </Text>
-                </View>
-                <View style={styles.rectangle}>
-                    <Image source={possibleSources[thisSource]} style={{ height: 58, width: 58 }}>
-
-                    </Image>
+            <View style={styles.rectangle}>
+                <View >
+                    <Image source={possibleSources[thisSource]} style={{ height: 58, width: 58 }}/>
                 </View>
             </View>
         </TouchableNativeFeedback>
     );
 }
-export default OptionRectangle;
+export default ActionsRectangle;
