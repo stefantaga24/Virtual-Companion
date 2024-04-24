@@ -5,51 +5,48 @@ import { Image, View, Text } from "react-native";
 const styles = StyleSheet.create({
     rectangle: {
 
-        width: "41%",
-        height: "20%",
-        backgroundColor: '#5E242D',
-        borderRadius: 30,
-        left: 50,
+        width: 137,
+        height: 135,
+        borderRadius: 15,
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'absolute',
-    },
-    transpRectangle: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#D9D9D9',
-        width: "70%",
-        height: 59,
-        borderRadius: 30,
+        backgroundColor: "rgba(0,0,0,0.6)",
     },
     subTitle: {
-        color: "black",
-        fontFamily: "Content",
-        fontStyle: "normal",
-        fontWeight: "700",
-        fontSize: 25,
+        color: "#F4F2E4",
+        fontFamily: "Inter-Bold", 
+        fontSize: 18,
     }
 });
 function onPressButton({ navigation, targetPage}: { navigation: any, targetPage: string}) {
     navigation.navigate(targetPage);
 }
-
-const possibleSources = [require('./Images/Mortarboard_light.png'),
-require('./Images/Book_open_alt.png'),
-require('./Images/Glasses_light.png')];
-const targetPageName = ["Notele mele", "Orarul meu", "Asociatii" , 
-            "Evenimente", "Anunturi" , "Consiliul Elevilor", "Google Classroom" ,"Planul Scolii"];
-function ActionsRectangle({ name, thisSource, navigation }: { name: string, thisSource: number, navigation: any }) {
+const sizes : any = {
+    "Schedule" :{width: 56, height:56 },
+    "Grades" :{width : 68, height: 71},
+    "Announcements" : {width: 85, height: 85},
+    "Teacher Contacts":{width : 76, height: 76},
+    "School Map" : {width: 74, height:74},
+    "Settings": {width: 124, height: 124}
+}
+const possibleSources : any = {
+    "Grades" : require('./Images/Grades.png'),
+    "Schedule" : require('./Images/Schedule.png'),
+    "Announcements": require('./Images/Announcements.png'),
+    "Teacher Contacts": require('./Images/TeacherContacts.png'),
+    "School Map":require('./Images/SchoolMap.png'),
+    "Settings":require('./Images/Settings.png')
+}; 
+function ActionsRectangle({ name, navigation }: { name: string, navigation: any }) {
     return (
         <TouchableNativeFeedback onPress={() => onPressButton({
             navigation: navigation,
-            targetPage: targetPageName[thisSource],
+            targetPage: name,
         })}>
-            <View style={styles.rectangle}>
-                <View >
-                    <Image source={possibleSources[thisSource]} style={{ height: 58, width: 58 }}/>
+                <View style={styles.rectangle}>
+                    <Image source={possibleSources[name]} style={{ height: sizes[name].height, width: sizes[name].width }}/>
+                    <Text style={styles.subTitle}>{name}</Text>
                 </View>
-            </View>
         </TouchableNativeFeedback>
     );
 }

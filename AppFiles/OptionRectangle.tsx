@@ -24,20 +24,18 @@ const styles = StyleSheet.create({
     },
     subTitle: {
         color: "black",
-        fontFamily: "Content",
-        fontStyle: "normal",
-        fontWeight: "700",
-        fontSize: 25,
+        fontFamily: "Inter-Medium",
+        fontSize: 30,
     }
 });
 function onPressButton({ navigation, targetPage ,name , id }: { navigation: any, targetPage: string ,name : string ,id :number }) {
     navigation.navigate(targetPage, {name : name ,id:id });
 }
 
-const possibleSources = [require('./Images/Mortarboard_light.png'),
-require('./Images/Book_open_alt.png'),
-require('./Images/Glasses_light.png')];
-const targetPageName = ["Elev", "Profesor", "Parinte"];
+const possibleSources = [require('./Images/StudentIcon.png'),
+require('./Images/TeacherLogo.png'),
+require('./Images/ParentLogo.png')];
+const targetPageName = ["Student", "Teacher", "Parent"];
 function OptionRectangle({ name, thisSource, navigation }: { name: string, thisSource: number, navigation: any }) {
     return (
         <TouchableNativeFeedback onPress={() => onPressButton({
@@ -46,16 +44,16 @@ function OptionRectangle({ name, thisSource, navigation }: { name: string, thisS
             name : targetPageName[thisSource],
             id: thisSource,
         })}>
-            <View  style={{ width: "100%", alignItems: "center", justifyContent: "center", marginTop: "8%"}}>
-                <View style={styles.transpRectangle}>
-                    <Text style={styles.subTitle}>
-                        {name}
-                    </Text>
-                </View>
-                <View style={styles.rectangle}>
-                    <Image source={possibleSources[thisSource]} style={{ height: 58, width: 58 }}>
+            <View  style={{ width: "100%", alignItems: "center", justifyContent: "center",flexDirection:"row", marginBottom: "8%"}}>
+                <View style={{flex:3 , alignItems:'center'}}>
+                    <Image source={possibleSources[thisSource]} style={{ height: 80, width: 80}}>
 
                     </Image>
+                </View>
+                <View style={{flex:4}}>
+                <Text style={styles.subTitle}>
+                        {name}
+                    </Text>
                 </View>
             </View>
         </TouchableNativeFeedback>
