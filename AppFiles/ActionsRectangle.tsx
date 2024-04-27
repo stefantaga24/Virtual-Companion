@@ -15,11 +15,11 @@ const styles = StyleSheet.create({
     subTitle: {
         color: "#F4F2E4",
         fontFamily: "Inter-Bold", 
-        fontSize: 18,
+        fontSize: 14,
     }
 });
-function onPressButton({ navigation, targetPage}: { navigation: any, targetPage: string}) {
-    navigation.navigate(targetPage);
+function onPressButton({ navigation, targetPage ,accountType ,id }: { navigation: any, targetPage: string, accountType: string, id :number}) {
+    navigation.navigate(targetPage,{accountType : accountType,id:id});
 }
 const sizes : any = {
     "Schedule" :{width: 56, height:56 },
@@ -27,7 +27,7 @@ const sizes : any = {
     "Announcements" : {width: 85, height: 85},
     "Teacher Contacts":{width : 76, height: 76},
     "School Map" : {width: 74, height:74},
-    "Settings": {width: 124, height: 124}
+    "Settings": {width: 104, height: 100}
 }
 const possibleSources : any = {
     "Grades" : require('./Images/Grades.png'),
@@ -35,13 +35,15 @@ const possibleSources : any = {
     "Announcements": require('./Images/Announcements.png'),
     "Teacher Contacts": require('./Images/TeacherContacts.png'),
     "School Map":require('./Images/SchoolMap.png'),
-    "Settings":require('./Images/Settings.png')
+    "Settings":require('./Images/Settings2.png')
 }; 
-function ActionsRectangle({ name, navigation }: { name: string, navigation: any }) {
+function ActionsRectangle({ name, navigation,accountType,id }: { name: string, navigation: any, accountType:string ,id :number}) {
     return (
         <TouchableNativeFeedback onPress={() => onPressButton({
             navigation: navigation,
             targetPage: name,
+            accountType: accountType,
+            id: id 
         })}>
                 <View style={styles.rectangle}>
                     <Image source={possibleSources[name]} style={{ height: sizes[name].height, width: sizes[name].width }}/>

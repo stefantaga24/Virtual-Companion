@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
     },
 });
 
-function tryAuthentication(email: string, password: string, navigation: any, setWrongPassword: any) {
+const accountType = ["Student","Teacher","Parent"];
+function tryAuthentication(email: string, password: string, navigation: any, setWrongPassword: any, accountTypeId: number) {
     if (email === '' || password === '') {
         setWrongPassword(true);
         return;
@@ -34,7 +35,7 @@ function tryAuthentication(email: string, password: string, navigation: any, set
     auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
-            navigation.navigate('AccountOptions');
+            navigation.navigate('AccountOptions',{accountType : accountType[accountTypeId], email : email});
         })
         .catch(error => {
             setWrongPassword(true);
@@ -110,7 +111,7 @@ const LoginPage = ({ route, navigation }: { route: any, navigation: any }) => {
                             </TouchableNativeFeedback>
                         </View>
                         <View style={{ flex: 2 , justifyContent:'flex-end', alignItems:'flex-end' , marginBottom: "8%", marginRight: "6%"}}>
-                            <TouchableNativeFeedback onPress={() => tryAuthentication(emailText, passwordText, navigation, setWrongPassword)}>
+                            <TouchableNativeFeedback onPress={() => tryAuthentication(emailText, passwordText, navigation, setWrongPassword,id)}>
                                 <Image source={require('./Images/arrowRight.png')} style={{ height: 24, width: 24}}></Image>
                             </TouchableNativeFeedback>
                         </View>
