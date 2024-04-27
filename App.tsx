@@ -8,6 +8,7 @@ import LoginPage from './AppFiles/LoginPage';
 import AccountOptions from './AppFiles/AccountOptions';
 import ChooseUser from './AppFiles/ChooseUser';
 import Settings from './AppFiles/SettingsPage';
+import TeacherContacts from './AppFiles/TeacherContacts';
 const Stack = createNativeStackNavigator();
 
 
@@ -20,6 +21,7 @@ const MyApp = () => {
         <Stack.Screen name="AccountOptions" component={AccountOptions}/>
         <Stack.Screen name="ChooseUser" component={ChooseUser}/>
         <Stack.Screen name="Settings" component={Settings}/>
+        <Stack.Screen name="Teacher Contacts" component={TeacherContacts}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

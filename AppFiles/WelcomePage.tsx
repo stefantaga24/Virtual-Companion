@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Image, StyleSheet, Text, ImageBackground, View, TouchableNativeFeedback} from 'react-native';
-import auth from '@react-native-firebase/auth';
+import auth, { firebase } from '@react-native-firebase/auth';
 
 const styles = StyleSheet.create({
   rectangle : {
