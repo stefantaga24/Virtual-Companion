@@ -32,9 +32,14 @@ const styles = StyleSheet.create({
 
 const WelcomePage = ({navigation} :{navigation : any}) => {
   const [initializing, setInitializing] = useState(true);
+  const [id,setId] = useState(0);
   const [user, setUser] = useState();
   function onAuthStateChanged(user : any) {
     setUser(user);
+    if (user!=null)
+    {
+       navigation.navigate("AccountOptions", {accountType:"", email:user.email});
+    }
     if (initializing) setInitializing(false);
   }
   

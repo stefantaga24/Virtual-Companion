@@ -1,15 +1,12 @@
 import React, { useState, useRef } from "react";
-import { Modal, StyleSheet } from "react-native";
 import { ImageBackground, View, Text, Image, TouchableNativeFeedback } from "react-native";
-import database from '@react-native-firebase/database';
 import { firebase } from '@react-native-firebase/database';
 import HeaderLoginPage from "./HeaderLoginPage";
 import Clipboard from '@react-native-clipboard/clipboard';
-import { TouchEventType } from "react-native-gesture-handler/lib/typescript/TouchEventType";
-import { AnimatedStyle, FadeIn, FadeOut, useAnimatedStyle, useSharedValue, interpolate, withTiming } from "react-native-reanimated";
+import { FadeIn, FadeOut, useAnimatedStyle, useSharedValue, interpolate, withTiming } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
-import { createAnimatedComponent } from "react-native-reanimated/lib/typescript/createAnimatedComponent";
-import LanguageRectangle from "./LanguageRectangles";
+
+import auth from '@react-native-firebase/auth';
 const databaseRef = firebase.app().database("https://appcaragiale-default-rtdb.europe-west1.firebasedatabase.app/");
 
 const reverseTypeId: any = {
@@ -35,7 +32,7 @@ function Settings({ route, navigation }: { route: any, navigation: any }) {
     const [pressed, setPressed] = useState(false);
     const [displayProp, setDisplayProp] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState(2);
-    
+
     var id = route.params.id;
 
     const flipAnim = useSharedValue(0);
@@ -53,29 +50,28 @@ function Settings({ route, navigation }: { route: any, navigation: any }) {
         setDisplayProp(!displayProp);
     };
 
-    const createLanguageTextStyle = (selectedPosition : any) =>{
+    const createLanguageTextStyle = (selectedPosition: any) => {
         return {
-            color: selectedPosition == selectedLanguage ? '#434343': '#F3F1E4',
+            color: selectedPosition == selectedLanguage ? '#434343' : '#F3F1E4',
             fontSize: 9,
             fontFamily: 'Inter-Medium',
         }
     };
 
-    const createLanguageRectStyle = (selectedPosition : any) =>{
+    const createLanguageRectStyle = (selectedPosition: any) => {
         return {
-            backgroundColor: selectedPosition == selectedLanguage ? '#F3F1E4': '#434343',
+            backgroundColor: selectedPosition == selectedLanguage ? '#F3F1E4' : '#434343',
             paddingLeft: 5,
-            paddingRight : 5,
-            paddingTop:2,
-            paddingBottom:2,
+            paddingRight: 5,
+            paddingTop: 2,
+            paddingBottom: 2,
             borderRadius: 9,
             marginLeft: '3%',
         }
     };
 
-    const handleLanguageChange = (selectedPosition :any ) =>{
-        if (selectedPosition != selectedLanguage)
-        {
+    const handleLanguageChange = (selectedPosition: any) => {
+        if (selectedPosition != selectedLanguage) {
             console.log(selectedPosition);
             setSelectedLanguage(selectedPosition);
         }
@@ -123,7 +119,7 @@ function Settings({ route, navigation }: { route: any, navigation: any }) {
                                 </Text>
                                 {"  "}
                             </Text>
-                            <TouchableNativeFeedback onPress={() => {Clipboard.setString(id.toString()); }} useForeground={true}>
+                            <TouchableNativeFeedback onPress={() => { Clipboard.setString(id.toString()); }} useForeground={true}>
                                 <Image
                                     source={require('./Images/Copy.png')}
                                     style={{ height: 17, width: 17 }}>
@@ -139,25 +135,25 @@ function Settings({ route, navigation }: { route: any, navigation: any }) {
                                 Change Language
                             </Text>
                         </TouchableNativeFeedback>
-                        <Animated.View entering={FadeIn.duration(300)} exiting={FadeOut.duration(300)} 
-                        style={[languageRectangleStyle, createLanguageRectStyle(0)]}>
-                            <TouchableNativeFeedback onPress={()=>handleLanguageChange(0)}>
+                        <Animated.View entering={FadeIn.duration(300)} exiting={FadeOut.duration(300)}
+                            style={[languageRectangleStyle, createLanguageRectStyle(0)]}>
+                            <TouchableNativeFeedback onPress={() => handleLanguageChange(0)}>
                                 <Text style={createLanguageTextStyle(0)}>
                                     DE
                                 </Text>
                             </TouchableNativeFeedback>
                         </Animated.View>
-                        <Animated.View entering={FadeIn.duration(300)} exiting={FadeOut.duration(300)} 
-                        style={[languageRectangleStyle2, createLanguageRectStyle(1)]}>
-                            <TouchableNativeFeedback onPress={()=>handleLanguageChange(1)}>
+                        <Animated.View entering={FadeIn.duration(300)} exiting={FadeOut.duration(300)}
+                            style={[languageRectangleStyle2, createLanguageRectStyle(1)]}>
+                            <TouchableNativeFeedback onPress={() => handleLanguageChange(1)}>
                                 <Text style={createLanguageTextStyle(1)}>
                                     RO
                                 </Text>
                             </TouchableNativeFeedback>
                         </Animated.View>
-                        <Animated.View entering={FadeIn.duration(300)} exiting={FadeOut.duration(300)} 
-                        style={[languageRectangleStyle3, createLanguageRectStyle(2)]}>
-                            <TouchableNativeFeedback onPress={()=>handleLanguageChange(2)}>
+                        <Animated.View entering={FadeIn.duration(300)} exiting={FadeOut.duration(300)}
+                            style={[languageRectangleStyle3, createLanguageRectStyle(2)]}>
+                            <TouchableNativeFeedback onPress={() => handleLanguageChange(2)}>
                                 <Text style={createLanguageTextStyle(2)}>
                                     EN
                                 </Text>
@@ -171,10 +167,50 @@ function Settings({ route, navigation }: { route: any, navigation: any }) {
                             </Animated.Image>
                         </TouchableNativeFeedback>
                     </View>
-                    <View style={{ width: "80%", flexDirection: 'row', alignItems: 'flex-end',marginTop:"2%"}}>
+                    <View style={{ width: "80%", flexDirection: 'row', alignItems: 'flex-end', marginTop: "2%" }}>
                         <Text style={{ color: 'black', fontFamily: 'Inter-Bold', fontSize: 12 }}>
-                            Download Transcript of Records 
+                            Download Transcript of Records
                         </Text>
+                        <Image
+                            source={require('./Images/downloadIcon.png')}
+                            style={{ width: 18, height: 18 }}
+                        >
+                        </Image>
+                    </View>
+                </View>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-start', marginBottom: "8%", marginLeft: "6%" }}>
+                        <TouchableNativeFeedback onPress={() => {
+                            navigation.goBack();
+                        }}>
+                            <Image
+                                source={require('./Images/arrowLeft.png')}
+                                style={{ height: 24, width: 24 }}
+                            >
+                            </Image>
+                        </TouchableNativeFeedback>
+                    </View>
+                    <View style={{
+                        flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', flexDirection: 'row',
+                        marginBottom: "8%", marginRight: "6%"
+                    }}>
+                        <TouchableNativeFeedback onPress={()=>{
+                            auth()
+                            .signOut()
+                            .then(() => navigation.navigate("WelcomePage"));
+                        }}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ color: '#434343', fontFamily: "Inter-Bold", fontSize: 15 }}>
+                                    Log out
+                                </Text>
+                                <Image
+                                    source={require('./Images/LogOutIcon.png')}
+                                    style={{ height: 19, width: 19 }}>
+
+                                </Image>
+                            </View>
+                        </TouchableNativeFeedback>
+
                     </View>
                 </View>
             </ImageBackground>
