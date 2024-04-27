@@ -55,7 +55,9 @@ function TeacherContacts({ route, navigation }: { route: any, navigation: any })
         });
     })
     if (loading) {
-        return null;
+        return (<View style={{ flex: 1, backgroundColor: "#F6F2DB" }}>
+        <ImageBackground style={{ flex: 1 }} source={require('./Images/BackgroundBlend.png')}>
+            </ImageBackground></View>);
     }
         return (
             <View style={{ flex: 1, backgroundColor: "#F6F2DB" }}>
