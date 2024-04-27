@@ -123,7 +123,7 @@ function Settings({ route, navigation }: { route: any, navigation: any }) {
                                 </Text>
                                 {"  "}
                             </Text>
-                            <TouchableNativeFeedback onPress={() => { console.log("Did it"); Clipboard.setString(id.toString()); }} useForeground={true}>
+                            <TouchableNativeFeedback onPress={() => {Clipboard.setString(id.toString()); }} useForeground={true}>
                                 <Image
                                     source={require('./Images/Copy.png')}
                                     style={{ height: 17, width: 17 }}>
