@@ -12,7 +12,7 @@ function AccountOptions({ route, navigation}: { route: any, navigation: any}) {
     var email : string = route.params.email;
     const [id, setId] = useState(0);
     databaseRef.ref('Emails/' + email.replace("@","").replace(".","")).once('value').then(snapshot=>{
-        setId(snapshot.val());
+        setId(snapshot.val().id);
     });
     return ( 
         (id!=null && <View style={{flex: 1, backgroundColor: "#F6F2DB"}}>

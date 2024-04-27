@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Image, StyleSheet, Text, ImageBackground, View, TouchableNativeFeedback} from 'react-native';
-import auth, { firebase } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
+import { firebase } from '@react-native-firebase/database';
 
 const styles = StyleSheet.create({
   rectangle : {
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   }
 });
+const databaseRef = firebase.app().database("https://appcaragiale-default-rtdb.europe-west1.firebasedatabase.app/");
 
 const WelcomePage = ({navigation} :{navigation : any}) => {
   const [initializing, setInitializing] = useState(true);
@@ -38,7 +40,9 @@ const WelcomePage = ({navigation} :{navigation : any}) => {
     setUser(user);
     if (user!=null)
     {
-       navigation.navigate("AccountOptions", {accountType:"", email:user.email});
+      databaseRef.ref('Emails/' + user.email.replace("@","").replace(".","")).once('value').then(snapshot=>{
+        navigation.navigate("AccountOptions", {accountType:snapshot.val().accountType, email:user.email});
+      });
     }
     if (initializing) setInitializing(false);
   }
