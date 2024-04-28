@@ -1,6 +1,8 @@
 # Virtual Companion
 
-An application meant to strengthen the relationship between teachers , parents and students in high schools around Romania, built with React-Native and Firebase.  
+An application meant to strengthen the relationship between teachers , parents and students in high schools around Romania, built with React-Native and Firebase. 
+
+All UX and UI design is done by https://darmara3.wixsite.com/dariasportfolio.
 
 Features:
 
