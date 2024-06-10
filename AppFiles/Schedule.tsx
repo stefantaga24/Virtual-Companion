@@ -4,6 +4,7 @@ import { ImageBackground, View, FlatList, Image, Text, TouchableNativeFeedback }
 import { firebase } from '@react-native-firebase/database';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { TouchEventType } from "react-native-gesture-handler/lib/typescript/TouchEventType";
+import TypewriterText from "./TypeWriterText";
 
 const blackColor = "#434343";
 const beigeColor = "#F4F1E3";
@@ -183,6 +184,7 @@ function Schedule({ route, navigation }: { route: any, navigation: any }) {
     return (
         <View style={{ flex: 1, backgroundColor: "#F6F2DB" }}>
             <ImageBackground style={{ flex: 1 }} source={require('./Images/BackgroundBlend.png')}>
+                
                 <View style= {{flex:1 }}>
                     <View style={{ marginTop:"10%", marginLeft: "5%"}}>
                         <Text style={{fontFamily:"Inter-Black", fontSize:20, color:"black"}}>

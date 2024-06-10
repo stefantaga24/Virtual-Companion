@@ -77,6 +77,9 @@ function TeacherContacts({ route, navigation }: { route: any, navigation: any })
                         style={{ width: 106, height: 106 }}
                     >
                     </Image>
+                    <Text style={{color:"#434343", fontSize: 20, fontFamily:"Inter-Bold"}}>
+                        Teacher Contacts
+                    </Text>
                 </View>
                 <View style={{ flex: 5 }}>
                     <View style={{ flexDirection: 'row' }}>
@@ -107,14 +110,19 @@ function TeacherContacts({ route, navigation }: { route: any, navigation: any })
                         renderItem={({ item }) => (
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={{ flex: 1, alignItems: 'center' }}>
-                                    <Text style={{ color: '#434343', marginTop: 5, fontSize: 11, fontFamily: "Inter-Medium" }}>
-                                        {"Prof. " + item.Name}
+                                    <View style={{width : 80, alignItems:'start'}}>
+
+                                    <Text style={{ color: '#434343', marginTop: 5, fontSize: 11, fontFamily: "Inter-Bold" }}>
+                                        {item.Name}
                                     </Text>
+                                    </View>
                                 </View>
                                 <View style={{ flex: 1, alignItems: 'center' }}>
-                                    <Text style={{ color: '#434343', marginTop: 5, fontSize: 11, fontFamily: "Inter-Medium" }}>
-                                        {item.Subject}
-                                    </Text>
+                                    <View style={{width : 80, alignItems:'start'}}>
+                                        <Text style={{ color: '#434343', marginTop: 5, fontSize: 11, fontFamily: "Inter-Medium" }}>
+                                            {item.Subject}
+                                        </Text>
+                                    </View>
                                 </View>
                                 <View style={{ flex: 1, alignItems: 'center' , flexDirection:"row"}}>
                                     <Text style={{ color: '#434343', marginTop: 5, fontSize: 11, fontFamily: "Inter-Medium", width:"80%"}}>

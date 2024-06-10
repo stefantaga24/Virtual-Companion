@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Image, StyleSheet, Text, ImageBackground, View, TouchableNativeFeedback} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { firebase } from '@react-native-firebase/database';
+import TypewriterText from './TypeWriterText';
 
 const styles = StyleSheet.create({
   rectangle : {
@@ -70,12 +71,10 @@ const WelcomePage = ({navigation} :{navigation : any}) => {
             </View>
             <View style={{flex:3, alignItems:'center', justifyContent:'center'}}>
               <View>
-                <Text style={{color: 'black', fontFamily:'Inter-Medium', fontSize:33}}>
-                  Welcome to
-                </Text>
-                <Text style={{color:'black', fontFamily:'Inter-Bold', fontSize:33}}>
-                  Virtual Companion!
-                </Text>
+                
+                <TypewriterText text={"Welcome to" + "\n" + "Virtual Companion!"} speed={100} 
+                textStyle={{color:'black', fontFamily:'Inter-Bold', fontSize:33}}>
+                </TypewriterText> 
                 <Text style = {{color:'grey', fontFamily:'Inter-Medium', fontSize: 25, marginTop:"1%"}}>
                   Here to assist in your daily educational encounters
                 </Text>
