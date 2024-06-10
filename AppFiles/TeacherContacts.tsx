@@ -33,6 +33,10 @@ function TeacherContacts({ route, navigation }: { route: any, navigation: any })
     var id = route.params.id;
     var accountType = route.params.accountType;
     useEffect(() => {
+        if (loading == false)
+        {
+            return;
+        }
         databaseRef.ref('Students/' + id).once('value').then(snapshot => {
             setCurrentName(" " + snapshot.val().Name);
             setCurrentID(" " + snapshot.key);
@@ -41,8 +45,12 @@ function TeacherContacts({ route, navigation }: { route: any, navigation: any })
                 var professors: any = [];
                 for (let key in snapshot.val()) {
                     var currentProfessor = snapshot.val()[key];
-                    for (var i = 0; i < currentProfessor.Classes.length; i++) {
-                        var currClass = currentProfessor.Classes[i];
+                    if (currentProfessor == null)
+                        {
+                            continue;
+                        }
+                     for (var i = 0; i < currentProfessor.classes.length; i++) {
+                        var currClass = currentProfessor.classes[i];
                         if (currClass.replace(" ", "") == currentClass.replace(" ", "")) {
                             professors.push(currentProfessor);
                         }
