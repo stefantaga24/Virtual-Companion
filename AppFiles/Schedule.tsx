@@ -180,7 +180,6 @@ function Schedule({ route, navigation }: { route: any, navigation: any }) {
             <ImageBackground style={{ flex: 1 }} source={require('./Images/BackgroundBlend.png')}>
             </ImageBackground></View>);
     } 
-    console.log(data);
     return (
         <View style={{ flex: 1, backgroundColor: "#F6F2DB" }}>
             <ImageBackground style={{ flex: 1 }} source={require('./Images/BackgroundBlend.png')}>
