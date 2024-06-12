@@ -11,6 +11,7 @@ import Settings from './AppFiles/SettingsPage';
 import TeacherContacts from './AppFiles/TeacherContacts';
 import Schedule from './AppFiles/Schedule';
 import Grades from './AppFiles/Grades';
+import SubjectGradePage from './AppFiles/SubjectGradePage';
 const Stack = createNativeStackNavigator();
 
 
@@ -26,6 +27,7 @@ const MyApp = () => {
         <Stack.Screen name="Teacher Contacts" component={TeacherContacts}/>
         <Stack.Screen name="Schedule" component = {Schedule}/>
         <Stack.Screen name="Grades" component = {Grades}/>
+        <Stack.Screen name="SubjectGradePage" component = {SubjectGradePage}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
