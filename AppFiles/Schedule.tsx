@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ActivityIndicator, Touchable } from "react-native";
-import { ImageBackground, View, FlatList, Image, Text, TouchableNativeFeedback } from "react-native";
+import { ImageBackground, View, FlatList, Image, Text, TouchableNativeFeedback,Modal} from "react-native";
 import { firebase } from '@react-native-firebase/database';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { TouchEventType } from "react-native-gesture-handler/lib/typescript/TouchEventType";
 import TypewriterText from "./TypeWriterText";
-
+import HourComponent from "./HourComponent";
 const blackColor = "#434343";
 const beigeColor = "#F4F1E3";
 const databaseRef = firebase.app().database("https://appcaragiale-default-rtdb.europe-west1.firebasedatabase.app/");
@@ -43,41 +43,31 @@ function getYesterday(date: Date)
     tomorrow.setDate(date.getDate() - 1);
     return tomorrow;
 }
-function HourComponent(timePeriodString: any, subjectName: any, id: any) {
-    return (
-        <View key={id}>
-            <Text style={{ color: blackColor, fontSize: 18, fontFamily: "Inter-ExtraBold" }}>
-                {timePeriodString}
-            </Text>
-            <Text style={{ color: blackColor, fontSize: 18, fontFamily: "Inter-Medium" }}>
-                {subjectName}
-            </Text>
-        </View>
-    )
-}
 function GenerateCalendar(schedule: any, selectedWeekDay: any) {
     if (selectedWeekDay == 5 || selectedWeekDay == 6)
     {
         return (<View></View>);
     }
-    var finalResult = (
-        <Text>
-            Hello
-        </Text>
-    )
     var hourList: any = [];
     var currentWeekDay: any = schedule[weekDays[selectedWeekDay]];
     var nr = 0;
     for (const timePeriod in currentWeekDay) {
         nr = nr + 1;
-        hourList.push({ "id": nr, "timePeriodString": convertTimePeriod[timePeriod], "subjectName": currentWeekDay[timePeriod]["subject_name"] });
+        hourList.push({ "id": nr, 
+                        "timePeriodString": convertTimePeriod[timePeriod], 
+                        "subjectName": currentWeekDay[timePeriod]["subject_name"],
+                        "class_location": currentWeekDay[timePeriod]["class_location"],
+                        "teacher_name": currentWeekDay[timePeriod]["teacher_name"]});
     }
     hourList.sort(((a: any, b: any) => parseInt(a.timePeriodString.substring(0, 2)) - parseInt(b.timePeriodString.substring(0, 2))));
     return (
         <View >
             {
                 hourList.map((hour: any) => (
-                    HourComponent(hour.timePeriodString, hour.subjectName, hour.id)
+                    <HourComponent class_location = {hour.class_location} id = {hour.id} teacher_name = {hour.teacher_name} 
+                                   timePeriodString = {hour.timePeriodString} subjectName = {hour.subjectName}>
+
+                    </HourComponent>
                 ))
             }
         </View>
