@@ -37,13 +37,31 @@ const WelcomePage = ({navigation} :{navigation : any}) => {
   const [initializing, setInitializing] = useState(true);
   const [id,setId] = useState(0);
   const [user, setUser] = useState();
+  const [cachedAccountType,setAccountType] = useState();
+  function navigateWithAccountType(accountType:any, email:string)
+  {
+      if (accountType == "Student")
+      {
+          navigation.navigate("AccountOptions", {accountType: accountType, email: email});
+      }
+      else 
+      if (accountType == "Teacher")
+      {
+          navigation.navigate("TeacherAccountOptions", {accountType: accountType, email: email});
+      }
+  }
   function onAuthStateChanged(user : any) {
     setUser(user);
     if (user!=null)
     {
-      databaseRef.ref('Emails/' + user.email.replace("@","").replace(".","")).once('value').then(snapshot=>{
-        navigation.navigate("AccountOptions", {accountType:snapshot.val().accountType, email:user.email});
-      });
+      if (!cachedAccountType)
+      {
+          databaseRef.ref('Emails/' + user.email.replace("@","").replace(".","")).once('value').then(snapshot=>{
+            let accountType = snapshot.val().accountType;
+            setAccountType(accountType);
+          });
+      }
+      navigateWithAccountType(cachedAccountType,user.email);
     }
     if (initializing) setInitializing(false);
   }

@@ -5,7 +5,7 @@ import { BlurView } from '@candlefinance/blur-view';
 const blackColor = "#434343";
 const beigeColor = "#F4F1E3";
 
-function HourComponent(props:any) {
+function TeacherHourComponent(props:any) {
     const [modalVisible,setModalVisible] = useState(false);
     return (
         <View key={props.id}>
@@ -32,7 +32,7 @@ function HourComponent(props:any) {
                                     {props.subjectName}  
                                 </Text>
                                 <Text style={{fontSize: 18, fontFamily:"Inter-Bold", color:beigeColor}}>
-                                    {"Prof." + " " + props.teacher_name}
+                                    {"Class:" + " " + props.className}
                                 </Text>
                                 <Text style={{fontSize: 18, fontFamily: "Inter-Bold", color: beigeColor}}>
                                     {"Room: " + props.class_location}
@@ -49,11 +49,11 @@ function HourComponent(props:any) {
                         {props.timePeriodString}
                     </Text>
                     <Text style={{ color: blackColor, fontSize: 18, fontFamily: "Inter-Medium" }}>
-                        {props.subjectName}
+                        {props.className}
                     </Text>
                 </View>
             </TouchableNativeFeedback>
         </View>
     )
 }
-export default HourComponent;
+export default TeacherHourComponent;

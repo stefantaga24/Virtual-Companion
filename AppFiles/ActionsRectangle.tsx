@@ -23,21 +23,27 @@ function onPressButton({ navigation, targetPage ,accountType ,id }: { navigation
 }
 const sizes : any = {
     "Schedule" :{width: 56, height:56 },
+    "TeacherSchedule" : {width: 56, height:56 },
     "Grades" :{width : 68, height: 71},
+    "TeacherGrades" :{width : 68, height: 71},
     "Announcements" : {width: 85, height: 85},
     "Teacher Contacts":{width : 76, height: 76},
+    "Parent Contacts":{width : 76, height: 76},
     "School Map" : {width: 74, height:74},
     "Settings": {width: 104, height: 100}
 }
 const possibleSources : any = {
     "Grades" : require('./Images/Grades.png'),
+    "TeacherGrades" : require('./Images/Grades.png'),
     "Schedule" : require('./Images/Schedule.png'),
+    "TeacherSchedule" : require('./Images/Schedule.png'),
     "Announcements": require('./Images/Announcements.png'),
     "Teacher Contacts": require('./Images/TeacherContacts.png'),
     "School Map":require('./Images/SchoolMap.png'),
+    "Parent Contacts" : require('./Images/TeacherContacts.png'),
     "Settings":require('./Images/Settings2.png')
 }; 
-function ActionsRectangle({ name, navigation,accountType,id }: { name: string, navigation: any, accountType:string ,id :number}) {
+function ActionsRectangle({ name, navigation,accountType,id,pageName }: { name: string, navigation: any, accountType:string ,id :number,pageName:string}) {
     return (
         <TouchableNativeFeedback onPress={() => onPressButton({
             navigation: navigation,
@@ -47,7 +53,7 @@ function ActionsRectangle({ name, navigation,accountType,id }: { name: string, n
         })}>
                 <View style={styles.rectangle}>
                     <Image source={possibleSources[name]} style={{ height: sizes[name].height, width: sizes[name].width }}/>
-                    <Text style={styles.subTitle}>{name}</Text>
+                    <Text style={styles.subTitle}>{pageName}</Text>
                 </View>
         </TouchableNativeFeedback>
     );

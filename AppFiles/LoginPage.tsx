@@ -35,7 +35,13 @@ function tryAuthentication(email: string, password: string, navigation: any, set
     auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
-            navigation.navigate('AccountOptions',{accountType : accountType[accountTypeId], email : email});
+            if (accountType[accountTypeId] == "WOWOWO") {
+                navigation.navigate('AccountOptions', { accountType: accountType[accountTypeId], email: email });
+            } else if (accountType[accountTypeId] == "Teacher") {
+                navigation.navigate('TeacherAccountOptions', { accountType: accountType[accountTypeId], email: email });
+            } else {
+                console.log("Unhandled account type:", accountType[accountTypeId]);
+            }
         })
         .catch(error => {
             setWrongPassword(true);
