@@ -15,6 +15,8 @@ import SubjectGradePage from './AppFiles/SubjectGradePage';
 import TeacherAccountOptions from './AppFiles/TeacherPages/TeacherAccountOptions';
 import TeacherSchedule from './AppFiles/TeacherPages/TeacherSchedule';
 import TeacherGrades from './AppFiles/TeacherPages/TeacherGrades';
+import SelectClassPage from './AppFiles/TeacherPages/SelectClassPage';
+import CustomGrades from './AppFiles/TeacherPages/CustomGrades';
 const Stack = createNativeStackNavigator();
 
 
@@ -25,13 +27,17 @@ const MyApp = () => {
       <Stack.Navigator screenOptions={{headerShown : false}}>
         <Stack.Screen name="WelcomePage" component={WelcomePage}/>
         <Stack.Screen name="LoginPage" component={LoginPage}/>
-        <Stack.Screen name="TeacherAccountOptions" component={TeacherAccountOptions}/>
+        <Stack.Group>
+            <Stack.Screen name="TeacherAccountOptions" component={TeacherAccountOptions}/>
+            <Stack.Screen name="Teacher Contacts" component={TeacherContacts}/>
+            <Stack.Screen name="TeacherSchedule" component= {TeacherSchedule}/>
+            <Stack.Screen name="SelectClassPage" component={SelectClassPage}/>
+            <Stack.Screen name="Custom Grades" component={CustomGrades}/>
+        </Stack.Group>
         <Stack.Screen name="AccountOptions" component={AccountOptions}/>
         <Stack.Screen name="ChooseUser" component={ChooseUser}/>
         <Stack.Screen name="Settings" component={Settings}/>
-        <Stack.Screen name="Teacher Contacts" component={TeacherContacts}/>
         <Stack.Screen name="Schedule" component = {Schedule}/>
-        <Stack.Screen name="TeacherSchedule" component= {TeacherSchedule}/>
         <Stack.Screen name="Grades" component = {Grades}/>
         <Stack.Screen name="TeacherGrades" component = {TeacherGrades}/>
         <Stack.Screen name="SubjectGradePage" component = {SubjectGradePage}/>
