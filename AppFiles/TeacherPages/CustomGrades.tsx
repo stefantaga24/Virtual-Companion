@@ -35,6 +35,50 @@ function CustomGrades({ route, navigation }: { route: any, navigation: any }) {
     const [typeValues , setTypeValues] : any = useState({});
     const [gradeValues , setGradeValues] : any = useState({});
     let currentClass = route.params.currentClass;
+    
+    var renderDateItem = ({item} : any ) =>
+        { 
+            return(
+            <View style={{justifyContent:"space-between", flexDirection:"row", marginTop:"10%"}}>
+                <View style={{width:80 , alignItems:"center"}}>
+                <Text style={[studentNameStyle]}>
+                    {item.name}
+                </Text>
+                </View>
+                <View style={{ width:80, alignItems:"center"}}>
+                    <TextInput
+                    style={{height:32, width:40, borderRadius:10 , borderColor: blackColor, borderWidth:2}}
+                    onChangeText={text => { 
+                        const nextTypeValues : any = {};
+                        for (const key in typeValues)
+                            {
+                                nextTypeValues[key] = typeValues[key];
+                            }
+                        nextTypeValues[item.studentId] = text;
+                        setTypeValues(nextTypeValues);
+                    }}
+                    maxLength = {1}
+                    value={typeValues[item.studentId]}
+                    />
+                </View>
+                <View style={{width: 80 , alignItems:"center"}}>
+                    <TextInput
+                    style={{height:32, width:40, borderRadius:10, borderColor: blackColor, borderWidth:2}}
+                    onChangeText={text => {
+                        const nextGradeValues : any = {};
+                        for (const key in typeValues)
+                            {
+                                nextGradeValues[key] = gradeValues[key];
+                            }
+                            nextGradeValues[item.studentId] = text;
+                        setGradeValues(nextGradeValues);
+                    }}
+                    value={gradeValues[item.studentId]}
+                    />
+                </View>
+                
+            </View>);
+        };
 
 
     useEffect(() => {
@@ -96,39 +140,7 @@ function CustomGrades({ route, navigation }: { route: any, navigation: any }) {
                             
                             <FlatList
                                 data = {students}
-                                renderItem={({item} : any ) =>
-                                    {
-                                        return(
-                                        <View style={{justifyContent:"space-between", flexDirection:"row", marginTop:"10%"}}>
-                                            <View style={{width:80 , alignItems:"center"}}>
-                                            <Text style={[studentNameStyle]}>
-                                                {item.name}
-                                            </Text>
-                                            </View>
-                                            <View style={{ width:80, alignItems:"center"}}>
-                                                <TextInput
-                                                style={{height:32, width:40, borderRadius:10 , borderColor: blackColor, borderWidth:2}}
-                                                onChangeText={text => {
-                                                    console.log(typeValues);
-                                                    let finalTypeValues = typeValues;
-                                                    finalTypeValues[item.studentId] = text;
-                                                    console.log(finalTypeValues);
-                                                    setTypeValues(finalTypeValues);
-                                                }}
-                                                maxLength = {1}
-                                                value={typeValues[item.studentId]}
-                                                />
-                                            </View>
-                                            <View style={{width: 80 , alignItems:"center"}}>
-                                                <TextInput
-                                                style={{height:32, width:40, borderRadius:10, borderColor: blackColor, borderWidth:2}}
-                                                onChangeText={text => {console.log(text);}}
-                                                value={gradeValues[item.studentId]}
-                                                />
-                                            </View>
-                                            
-                                        </View>);
-                                    }}
+                                renderItem={renderDateItem}
                                 style={{width:"80%"}}
                             /> 
                         </View>
