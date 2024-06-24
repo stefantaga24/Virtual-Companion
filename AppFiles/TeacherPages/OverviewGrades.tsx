@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {ImageBackground, View, FlatList, Text, TextInput} from 'react-native';
+import {ImageBackground, View, FlatList, Text} from 'react-native';
 import {firebase} from '@react-native-firebase/database';
 import Styles from './Styles';
 const blackColor = '#434343';
@@ -11,12 +11,6 @@ const databaseRef = firebase
   .database(
     'https://appcaragiale-default-rtdb.europe-west1.firebasedatabase.app/',
   );
-
-let subtitleStyle = {
-  fontSize: 14,
-  fontFamily: 'Inter-SemiBold',
-  color: blackColor,
-};
 
 let studentNameStyle = {
   fontSize: 14,
@@ -29,11 +23,11 @@ let rectangleStyle = {
   fontSize: 15,
   textAlign: 'center',
 };
-const rectangleHeader = (interiorText: string) => {
+const recHeaderVarWidth = (interiorText: string, width: number) => {
   return (
     <View
       style={{
-        width: 80,
+        width: width,
         height: 24,
         backgroundColor: blackColor,
         borderRadius: 7,
@@ -43,14 +37,19 @@ const rectangleHeader = (interiorText: string) => {
   );
 };
 
-function CustomGrades({route}: {route: any; navigation: any}) {
+function OverviewGrades({route}: {route: any; navigation: any}) {
   const [loading, setLoading] = useState(true);
   const [students, setStudents] = useState([]);
-  const [typeValues, setTypeValues]: any = useState({});
-  const [gradeValues, setGradeValues]: any = useState({});
   let currentClass = route.params.currentClass;
-
   var renderGrade = ({item}: any) => {
+    console.log(item);
+    return (
+      <View>
+        <Text style={Styles.gradeText}>{item.Value}</Text>
+      </View>
+    );
+  };
+  var renderStudentData = ({item}: any) => {
     return (
       <View
         style={{
@@ -61,43 +60,12 @@ function CustomGrades({route}: {route: any; navigation: any}) {
         <View style={{width: 80, alignItems: 'center'}}>
           <Text style={[studentNameStyle]}>{item.name}</Text>
         </View>
-        <View style={{width: 80, alignItems: 'center'}}>
-          <TextInput
-            style={Styles.gradeInput}
-            onChangeText={text => {
-              const regex = /^[HPT]*$/;
-              if (!regex.test(text)) {
-                text = '';
-              }
-              const nextTypeValues: any = {};
-              for (const key in typeValues) {
-                nextTypeValues[key] = typeValues[key];
-              }
-              nextTypeValues[item.studentId] = text;
-              setTypeValues(nextTypeValues);
-            }}
-            maxLength={1}
-            value={typeValues[item.studentId]}
-          />
-        </View>
-        <View style={{width: 80, alignItems: 'center'}}>
-          <TextInput
-            style={Styles.gradeInput}
-            onChangeText={text => {
-              const regex = /^[0123456789]*$/;
-              if (!regex.test(text)) {
-                text = '';
-              } else if (Number(text) > 10 || Number(text) < 0) {
-                text = text.slice(0, -1);
-              }
-              const nextGradeValues: any = {};
-              for (const key in typeValues) {
-                nextGradeValues[key] = gradeValues[key];
-              }
-              nextGradeValues[item.studentId] = text;
-              setGradeValues(nextGradeValues);
-            }}
-            value={gradeValues[item.studentId]}
+        <View>
+          <FlatList
+            style={Styles.gradesListStyle}
+            data={item.grades}
+            renderItem={renderGrade}
+            horizontal={true}
           />
         </View>
       </View>
@@ -113,25 +81,21 @@ function CustomGrades({route}: {route: any; navigation: any}) {
       .once('value')
       .then(snapshot => {
         let finalStudents: any = [];
-        let finalTypeValues: any = {};
         for (const studentId in snapshot.val()) {
           if (snapshot.val()[studentId].ClassID === currentClass) {
             finalStudents.push({
               studentId: studentId,
               name: snapshot.val()[studentId].Name,
+              grades: snapshot.val()[studentId].Grades,
             });
-            finalTypeValues[studentId] = '';
-            gradeValues[studentId] = '';
           }
         }
-        setTypeValues(finalTypeValues);
         setStudents(finalStudents);
-        setGradeValues(gradeValues);
       });
     if (students) {
       setLoading(false);
     }
-  }, [loading, students, gradeValues, currentClass]);
+  }, [loading, students, currentClass]);
   if (loading) {
     return (
       <View style={{flex: 1, backgroundColor: '#F6F2DB'}}>
@@ -142,6 +106,8 @@ function CustomGrades({route}: {route: any; navigation: any}) {
       </View>
     );
   }
+  const nameHeaderWidth = 80;
+  const gradesHeaderWidth = 180;
   return (
     <View style={{flex: 1, backgroundColor: '#F6F2DB'}}>
       <ImageBackground style={{flex: 1}} source={require(backgroundImage)}>
@@ -171,28 +137,16 @@ function CustomGrades({route}: {route: any; navigation: any}) {
               <View
                 style={{
                   width: '80%',
-                  justifyContent: 'space-between',
-                  flexDirection: 'row',
-                  marginTop: '3%',
-                }}>
-                <Text style={subtitleStyle}>H=Homework</Text>
-                <Text style={subtitleStyle}>P=Project</Text>
-                <Text style={subtitleStyle}>T=Test</Text>
-              </View>
-              <View
-                style={{
-                  width: '80%',
                   flexDirection: 'row',
                   marginTop: '10%',
                   justifyContent: 'space-between',
                 }}>
-                {rectangleHeader('Name')}
-                {rectangleHeader('Type')}
-                {rectangleHeader('Grade')}
+                {recHeaderVarWidth('Name', nameHeaderWidth)}
+                {recHeaderVarWidth('Grades', gradesHeaderWidth)}
               </View>
               <FlatList
                 data={students}
-                renderItem={renderGrade}
+                renderItem={renderStudentData}
                 style={{width: '80%'}}
               />
             </View>
@@ -203,4 +157,4 @@ function CustomGrades({route}: {route: any; navigation: any}) {
   );
 }
 
-export default CustomGrades;
+export default OverviewGrades;
