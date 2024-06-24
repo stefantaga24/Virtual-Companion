@@ -36,7 +36,7 @@ function CustomGrades({ route, navigation }: { route: any, navigation: any }) {
     const [gradeValues , setGradeValues] : any = useState({});
     let currentClass = route.params.currentClass;
     
-    var renderDateItem = ({item} : any ) =>
+    var renderGrade = ({item} : any ) =>
         { 
             return(
             <View style={{justifyContent:"space-between", flexDirection:"row", marginTop:"10%"}}>
@@ -140,7 +140,7 @@ function CustomGrades({ route, navigation }: { route: any, navigation: any }) {
                             
                             <FlatList
                                 data = {students}
-                                renderItem={renderDateItem}
+                                renderItem={renderGrade}
                                 style={{width:"80%"}}
                             /> 
                         </View>
