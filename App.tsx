@@ -11,7 +11,6 @@ import TeacherContacts from './AppFiles/TeacherContacts';
 import Schedule from './AppFiles/Schedule';
 import Grades from './AppFiles/Grades';
 import SubjectGradePage from './AppFiles/SubjectGradePage';
-import TeacherAccountOptions from './AppFiles/TeacherPages/TeacherAccountOptions';
 import TeacherSchedule from './AppFiles/TeacherPages/TeacherSchedule';
 import TeacherGrades from './AppFiles/TeacherPages/TeacherGrades';
 import SelectClassPage from './AppFiles/TeacherPages/SelectClassPage';

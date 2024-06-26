@@ -32,13 +32,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const accountType = ['Student', 'Teacher', 'Parent'];
 function tryAuthentication(
   email: string,
   password: string,
-  navigation: any,
   setWrongPassword: any,
-  accountTypeId: number,
 ) {
   if (email === '' || password === '') {
     setWrongPassword(true);
@@ -47,21 +44,6 @@ function tryAuthentication(
 
   auth()
     .signInWithEmailAndPassword(email, password)
-    .then(() => {
-      if (accountType[accountTypeId] == 'WOWOWO') {
-        navigation.navigate('AccountOptions', {
-          accountType: accountType[accountTypeId],
-          email: email,
-        });
-      } else if (accountType[accountTypeId] == 'Teacher') {
-        navigation.navigate('TeacherAccountOptions', {
-          accountType: accountType[accountTypeId],
-          email: email,
-        });
-      } else {
-        console.log('Unhandled account type:', accountType[accountTypeId]);
-      }
-    })
     .catch(_error => {
       setWrongPassword(true);
     });
@@ -201,13 +183,7 @@ const LoginPage = ({route, navigation}: {route: any; navigation: any}) => {
               }}>
               <TouchableNativeFeedback
                 onPress={() =>
-                  tryAuthentication(
-                    emailText,
-                    passwordText,
-                    navigation,
-                    setWrongPassword,
-                    id,
-                  )
+                  tryAuthentication(emailText, passwordText, setWrongPassword)
                 }>
                 <Image
                   source={require('./Images/arrowRight.png')}

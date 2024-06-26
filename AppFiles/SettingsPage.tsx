@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ImageBackground,
   View,
@@ -20,6 +21,7 @@ import {
 import Animated from 'react-native-reanimated';
 
 import auth from '@react-native-firebase/auth';
+const backgroundImage = './Images/BackgroundBlend.png';
 const databaseRef = firebase
   .app()
   .database(
@@ -48,7 +50,9 @@ function Settings({route, navigation}: {route: any; navigation: any}) {
   const [pressed, setPressed] = useState(false);
   const [displayProp, setDisplayProp] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(2);
+  const [loading, setLoading] = useState(true);
 
+  var accountType = route.params.accountType;
   var id = route.params.id;
 
   const flipAnim = useSharedValue(0);
@@ -68,7 +72,7 @@ function Settings({route, navigation}: {route: any; navigation: any}) {
 
   const createLanguageTextStyle = (selectedPosition: any) => {
     return {
-      color: selectedPosition == selectedLanguage ? '#434343' : '#F3F1E4',
+      color: selectedPosition === selectedLanguage ? '#434343' : '#F3F1E4',
       fontSize: 9,
       fontFamily: 'Inter-Medium',
     };
@@ -77,7 +81,7 @@ function Settings({route, navigation}: {route: any; navigation: any}) {
   const createLanguageRectStyle = (selectedPosition: any) => {
     return {
       backgroundColor:
-        selectedPosition == selectedLanguage ? '#F3F1E4' : '#434343',
+        selectedPosition === selectedLanguage ? '#F3F1E4' : '#434343',
       paddingLeft: 5,
       paddingRight: 5,
       paddingTop: 2,
@@ -88,8 +92,7 @@ function Settings({route, navigation}: {route: any; navigation: any}) {
   };
 
   const handleLanguageChange = (selectedPosition: any) => {
-    if (selectedPosition != selectedLanguage) {
-      console.log(selectedPosition);
+    if (selectedPosition !== selectedLanguage) {
       setSelectedLanguage(selectedPosition);
     }
   };
@@ -108,14 +111,29 @@ function Settings({route, navigation}: {route: any; navigation: any}) {
   const languageRectangleStyle3 = useAnimatedStyle(() => ({
     display: isDisplayed.value >= 0.5 ? 'flex' : 'none',
   }));
-  databaseRef
-    .ref('Students/' + id)
-    .once('value')
-    .then(snapshot => {
-      setCurrentName(' ' + snapshot.val().Name);
-      setCurrentID(' ' + snapshot.key);
-    });
-  var accountType = route.params.accountType;
+
+  useEffect(() => {
+    if (loading === false) {
+      return;
+    }
+    var databasePath = route.params.accountType + 's/' + id;
+    console.log(databasePath);
+    databaseRef
+      .ref(databasePath)
+      .once('value')
+      .then(snapshot => {
+        setCurrentName(' ' + snapshot.val().Name);
+        setCurrentID(' ' + snapshot.key);
+        setLoading(false);
+      });
+  }, []);
+  if (loading) {
+    return (
+      <View style={{flex: 1, backgroundColor: '#F6F2DB'}}>
+        <ImageBackground style={{flex: 1}} source={require(backgroundImage)} />
+      </View>
+    );
+  }
   return (
     <View style={{flex: 1, backgroundColor: '#F6F2DB'}}>
       <ImageBackground
@@ -226,22 +244,28 @@ function Settings({route, navigation}: {route: any; navigation: any}) {
               />
             </TouchableNativeFeedback>
           </View>
-          <View
-            style={{
-              width: '80%',
-              flexDirection: 'row',
-              alignItems: 'flex-end',
-              marginTop: '2%',
-            }}>
-            <Text
-              style={{color: 'black', fontFamily: 'Inter-Bold', fontSize: 12}}>
-              Download Transcript of Records
-            </Text>
-            <Image
-              source={require('./Images/downloadIcon.png')}
-              style={{width: 18, height: 18}}
-            />
-          </View>
+          {route.params.accountType === 'Student' && (
+            <View
+              style={{
+                width: '80%',
+                flexDirection: 'row',
+                alignItems: 'flex-end',
+                marginTop: '2%',
+              }}>
+              <Text
+                style={{
+                  color: 'black',
+                  fontFamily: 'Inter-Bold',
+                  fontSize: 12,
+                }}>
+                Download Transcript of Records
+              </Text>
+              <Image
+                source={require('./Images/downloadIcon.png')}
+                style={{width: 18, height: 18}}
+              />
+            </View>
+          )}
         </View>
         <View style={{flex: 1, flexDirection: 'row'}}>
           <View
