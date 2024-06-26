@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   Image,
   Text,
@@ -8,60 +8,8 @@ import {
   View,
   TouchableNativeFeedback,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
-import {firebase} from '@react-native-firebase/database';
 import TypewriterText from './TypeWriterText';
-
-const databaseRef = firebase
-  .app()
-  .database(
-    'https://appcaragiale-default-rtdb.europe-west1.firebasedatabase.app/',
-  );
-
 const WelcomePage = ({navigation}: {navigation: any}) => {
-  const [initializing, setInitializing] = useState(true);
-  const [_user, setUser] = useState();
-  const [cachedAccountType, setAccountType] = useState();
-  function navigateWithAccountType(accountType: any, email: string) {
-    if (accountType === 'Student') {
-      navigation.navigate('AccountOptions', {
-        accountType: accountType,
-        email: email,
-      });
-    } else if (accountType === 'Teacher') {
-      navigation.navigate('TeacherAccountOptions', {
-        accountType: accountType,
-        email: email,
-      });
-    }
-  }
-  function onAuthStateChanged(currentUser: any) {
-    setUser(currentUser);
-    if (currentUser != null) {
-      if (!cachedAccountType) {
-        databaseRef
-          .ref('Emails/' + currentUser.email.replace('@', '').replace('.', ''))
-          .once('value')
-          .then(snapshot => {
-            let accountType = snapshot.val().accountType;
-            setAccountType(accountType);
-          });
-      }
-      navigateWithAccountType(cachedAccountType, currentUser.email);
-    }
-    if (initializing) {
-      setInitializing(false);
-    }
-  }
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
-  if (initializing) {
-    return null;
-  }
   return (
     <View style={{flex: 1, backgroundColor: '#F6F2DB'}}>
       <ImageBackground

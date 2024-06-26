@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {
   ImageBackground,
   View,
@@ -15,7 +15,6 @@ import {
   FadeOut,
   useAnimatedStyle,
   useSharedValue,
-  interpolate,
   withTiming,
 } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
@@ -274,9 +273,7 @@ function Settings({route, navigation}: {route: any; navigation: any}) {
             }}>
             <TouchableNativeFeedback
               onPress={() => {
-                auth()
-                  .signOut()
-                  .then(() => navigation.navigate('WelcomePage'));
+                auth().signOut();
               }}>
               <View style={{flexDirection: 'row'}}>
                 <Text
