@@ -50,9 +50,9 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
   const [students, setStudents] = useState([]);
   const [dateValues, setDateValues]: any = useState({});
   const [gradeValues, setGradeValues]: any = useState({});
+  
   let currentClass = route.params.currentClass;
   let subject = route.params.subject;
-  console.log(subject);
   var renderGrade = ({item}: any) => {
     let finalName = item.name.split(' ');
     finalName = finalName[0] + ' ' + finalName[1][0] + '.';

@@ -26,7 +26,7 @@ function TabGrades({
       }}>
       <TouchableNativeFeedback
         onPress={() => {
-          navigation.goBack();
+          navigation.goBack(params);
         }}>
         <ImageBackground
           source={require(arrowLeftImage)}
@@ -97,7 +97,7 @@ function TabOption({
   return (
     <TouchableNativeFeedback
       onPress={() => {
-        navigation.navigate(targetPage, {params});
+        navigation.navigate(targetPage, params);
       }}>
       <View
         style={{

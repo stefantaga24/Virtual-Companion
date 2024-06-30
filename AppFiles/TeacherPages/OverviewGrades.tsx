@@ -43,7 +43,6 @@ function OverviewGrades({route, navigation}: {route: any; navigation: any}) {
   const [students, setStudents] = useState([]);
   let currentClass = route.params.currentClass;
   var renderGrade = ({item}: any) => {
-    console.log(item);
     return (
       <View>
         <Text style={Styles.gradeText}>{item.Value}</Text>
@@ -155,7 +154,7 @@ function OverviewGrades({route, navigation}: {route: any; navigation: any}) {
             </View>
           </View>
           <TabGrades
-            currentClass={currentClass}
+            params={route.params}
             navigation={navigation}
             pageName={'Overview Grades'}
           />
