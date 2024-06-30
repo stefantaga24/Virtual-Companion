@@ -2,6 +2,7 @@
 import React, {useState, useEffect} from 'react';
 import {ImageBackground, View, FlatList, Text} from 'react-native';
 import {firebase} from '@react-native-firebase/database';
+import TabGrades from '../Utilities/TabGrades';
 import Styles from './Styles';
 const blackColor = '#434343';
 const beigeColor = '#F4F1E3';
@@ -37,7 +38,7 @@ const recHeaderVarWidth = (interiorText: string, width: number) => {
   );
 };
 
-function OverviewGrades({route}: {route: any; navigation: any}) {
+function OverviewGrades({route, navigation}: {route: any; navigation: any}) {
   const [loading, setLoading] = useState(true);
   const [students, setStudents] = useState([]);
   let currentClass = route.params.currentClass;
@@ -112,7 +113,7 @@ function OverviewGrades({route}: {route: any; navigation: any}) {
     <View style={{flex: 1, backgroundColor: '#F6F2DB'}}>
       <ImageBackground style={{flex: 1}} source={require(backgroundImage)}>
         <View style={{flex: 1}}>
-          <View style={{flex: 1}}>
+          <View style={{flex: 10}}>
             <View
               style={{
                 height: 41,
@@ -151,6 +152,11 @@ function OverviewGrades({route}: {route: any; navigation: any}) {
               />
             </View>
           </View>
+          <TabGrades
+            currentClass={currentClass}
+            navigation={navigation}
+            pageName={'Overview Grades'}
+          />
         </View>
       </ImageBackground>
     </View>

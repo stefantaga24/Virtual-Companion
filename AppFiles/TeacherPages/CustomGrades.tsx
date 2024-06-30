@@ -7,14 +7,13 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  TouchableNativeFeedback,
 } from 'react-native';
 import {firebase} from '@react-native-firebase/database';
 import Styles from './Styles';
+import TabGrades from '../Utilities/TabGrades';
 const blackColor = '#434343';
 const beigeColor = '#F4F1E3';
 const backgroundImage = '../Images/BackgroundBlend.png';
-const arrowLeftImage = '../Images/arrowLeftBeige.png';
 const databaseRef = firebase
   .app()
   .database(
@@ -138,7 +137,7 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
     <View style={{flex: 1, backgroundColor: '#F6F2DB'}}>
       <ImageBackground style={{flex: 1}} source={require(backgroundImage)}>
         <View style={{flex: 1}}>
-          <View style={{flex: 12}}>
+          <View style={{flex: 10}}>
             <View
               style={{
                 height: 41,
@@ -189,23 +188,16 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
               />
             </View>
           </View>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <TouchableNativeFeedback
-              onPress={() => {
-                navigation.goBack();
-              }}>
-              <ImageBackground
-                source={require(arrowLeftImage)}
-                style={{width: 35, height: 35, marginLeft: '5%'}}
-              />
-            </TouchableNativeFeedback>
-          </View>
+          <TabGrades
+            currentClass={currentClass}
+            navigation={navigation}
+            pageName={'Custom Grades'}
+          />
         </View>
       </ImageBackground>
     </View>
   );
 }
-
 export default CustomGrades;
 
 let styles = StyleSheet.create({
