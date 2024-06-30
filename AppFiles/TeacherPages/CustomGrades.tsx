@@ -7,12 +7,24 @@ import {
   Text,
   TextInput,
   StyleSheet,
+  TouchableNativeFeedback,
 } from 'react-native';
+
+function extractNumbers(input) {
+  let numbers = input.match(/\d+/g);
+  if (!numbers) {
+      return '';
+  }
+  return numbers.join('');
+}
+
+
 import {firebase} from '@react-native-firebase/database';
 import Styles from './Styles';
 import TabGrades from '../Utilities/TabGrades';
 const blackColor = '#434343';
 const beigeColor = '#F4F1E3';
+const placeHolderColor = 'rgba(67,67,67,0.5)';
 const backgroundImage = '../Images/BackgroundBlend.png';
 const databaseRef = firebase
   .app()
@@ -37,11 +49,11 @@ const rectangleHeader = (interiorText: string) => {
 function CustomGrades({route, navigation}: {route: any; navigation: any}) {
   const [loading, setLoading] = useState(true);
   const [students, setStudents] = useState([]);
-  const [typeValues, setTypeValues]: any = useState({});
+  const [dateValues, setDateValues]: any = useState({});
   const [gradeValues, setGradeValues]: any = useState({});
   let currentClass = route.params.currentClass;
-
   var renderGrade = ({item}: any) => {
+    let finalName = item.name.split(' ');
     return (
       <View
         style={{
@@ -49,26 +61,85 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
           flexDirection: 'row',
           marginTop: '10%',
         }}>
-        <View style={{width: 80, alignItems: 'center'}}>
-          <Text style={[styles.studentNameStyle]}>{item.name}</Text>
+        <View
+          style={{width: 80, alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={[styles.studentNameStyle]}>
+            {finalName[0] + ' ' + finalName[1][0] + '.'}
+          </Text>
         </View>
-        <View style={{width: 80, alignItems: 'center'}}>
+        <View style={{alignItems: 'center', flexDirection: 'row'}}>
           <TextInput
-            style={Styles.gradeInput}
             onChangeText={text => {
-              const regex = /^[HPT]*$/;
+              const regex = /^[0123456789]*$/;
               if (!regex.test(text)) {
-                text = '';
+                text = extractNumbers(text);
               }
-              const nextTypeValues: any = {};
-              for (const key in typeValues) {
-                nextTypeValues[key] = typeValues[key];
+              const nextDateValues: any = {};
+              for (const key in dateValues) {
+                nextDateValues[key] = dateValues[key];
               }
-              nextTypeValues[item.studentId] = text;
-              setTypeValues(nextTypeValues);
+              nextDateValues[item.studentId].day = text;
+              setDateValues(nextDateValues);
             }}
-            maxLength={1}
-            value={typeValues[item.studentId]}
+            style={{color: blackColor}}
+            placeholderTextColor={placeHolderColor}
+            placeholder={'dd'}
+            maxLength={2}
+            onSubmitEditing={() => {
+              this[item.studentId + 'monthInput'].focus();
+            }}
+            blurOnSubmit={false}
+            value={dateValues[item.studentId].day}
+          />
+          <Text style={Styles.blackColor}>/</Text>
+          <TextInput
+            onChangeText={text => {
+              const regex = /^[0123456789]*$/;
+              if (!regex.test(text)) {
+                text = extractNumbers(text);
+              }
+              const nextDateValues: any = {};
+              for (const key in dateValues) {
+                nextDateValues[key] = dateValues[key];
+              }
+              nextDateValues[item.studentId].month = text;
+              setDateValues(nextDateValues);
+            }}
+            style={{color: blackColor}}
+            placeholderTextColor={placeHolderColor}
+            placeholder={'mm'}
+            maxLength={2}
+            ref={input => {
+              this[item.studentId + 'monthInput'] = input;
+            }}
+            onSubmitEditing={() => {
+              this[item.studentId + 'yearInput'].focus();
+            }}
+            blurOnSubmit={false}
+            value={dateValues[item.studentId].month}
+          />
+          <Text style={Styles.blackColor}>/</Text>
+          <TextInput
+            onChangeText={text => {
+              const regex = /^[0123456789]*$/;
+              if (!regex.test(text)) {
+                text = extractNumbers(text);
+              }
+              const nextDateValues: any = {};
+              for (const key in dateValues) {
+                nextDateValues[key] = dateValues[key];
+              }
+              nextDateValues[item.studentId].year = text;
+              setDateValues(nextDateValues);
+            }}
+            style={{color: blackColor}}
+            placeholderTextColor={placeHolderColor}
+            placeholder={'year'}
+            maxLength={4}
+            ref={input => {
+              this[item.studentId + 'yearInput'] = input;
+            }}
+            value={dateValues[item.studentId].year}
           />
         </View>
         <View style={{width: 80, alignItems: 'center'}}>
@@ -82,7 +153,7 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
                 text = text.slice(0, -1);
               }
               const nextGradeValues: any = {};
-              for (const key in typeValues) {
+              for (const key in gradeValues) {
                 nextGradeValues[key] = gradeValues[key];
               }
               nextGradeValues[item.studentId] = text;
@@ -111,11 +182,15 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
               studentId: studentId,
               name: snapshot.val()[studentId].Name,
             });
-            finalTypeValues[studentId] = '';
+            finalTypeValues[studentId] = {
+              day: '',
+              month: '',
+              year: '',
+            };
             gradeValues[studentId] = '';
           }
         }
-        setTypeValues(finalTypeValues);
+        setDateValues(finalTypeValues);
         setStudents(finalStudents);
         setGradeValues(gradeValues);
       });
@@ -138,38 +213,49 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
       <ImageBackground style={{flex: 1}} source={require(backgroundImage)}>
         <View style={{flex: 1}}>
           <View style={{flex: 10}}>
-            <View
-              style={{
-                height: 41,
-                width: 167,
-                backgroundColor: blackColor,
-                borderRadius: 7,
-                justifyContent: 'center',
-                marginTop: '20%',
-                marginLeft: '10%',
-              }}>
-              <Text
-                style={{
-                  marginLeft: '5%',
-                  color: beigeColor,
-                  fontFamily: 'Inter-Medium',
-                  fontSize: 30,
-                }}>
-                {currentClass}
-              </Text>
-            </View>
-            <View style={{alignItems: 'center'}}>
+            <View style={{flexDirection: 'row'}}>
               <View
                 style={{
-                  width: '80%',
-                  justifyContent: 'space-between',
-                  flexDirection: 'row',
-                  marginTop: '3%',
+                  height: 41,
+                  width: 167,
+                  backgroundColor: blackColor,
+                  borderRadius: 7,
+                  justifyContent: 'center',
+                  marginTop: '20%',
+                  marginLeft: '10%',
                 }}>
-                <Text style={styles.subtitleStyle}>H=Homework</Text>
-                <Text style={styles.subtitleStyle}>P=Project</Text>
-                <Text style={styles.subtitleStyle}>T=Test</Text>
+                <Text
+                  style={{
+                    marginLeft: '5%',
+                    color: beigeColor,
+                    fontFamily: 'Inter-Medium',
+                    fontSize: 30,
+                  }}>
+                  {currentClass}
+                </Text>
               </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                }}>
+                <TouchableNativeFeedback
+                  onPress={() => {
+                    console.log(dateValues);
+                  }}>
+                  <Text
+                    style={{
+                      color: blackColor,
+                      fontFamily: 'Inter-SemiBold',
+                      fontSize: 18,
+                    }}>
+                    Save
+                  </Text>
+                </TouchableNativeFeedback>
+              </View>
+            </View>
+            <View style={{alignItems: 'center'}}>
               <View
                 style={{
                   width: '80%',
@@ -178,7 +264,7 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
                   justifyContent: 'space-between',
                 }}>
                 {rectangleHeader('Name')}
-                {rectangleHeader('Type')}
+                {rectangleHeader('Date')}
                 {rectangleHeader('Grade')}
               </View>
               <FlatList
