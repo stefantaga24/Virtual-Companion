@@ -51,7 +51,7 @@ function TeacherGrades({route, navigation}: {route: any; navigation: any}) {
     return (
       <TouchableNativeFeedback
         onPress={() => {
-          navigation.navigate('Select option', {currentClass: item});
+          navigation.navigate('Custom Grades', {currentClass: item});
         }}>
         <View>
           <Text style={classTextStyle}>{item}</Text>

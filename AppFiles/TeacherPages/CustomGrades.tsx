@@ -1,34 +1,26 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {ImageBackground, View, FlatList, Text, TextInput} from 'react-native';
+import {
+  ImageBackground,
+  View,
+  FlatList,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableNativeFeedback,
+} from 'react-native';
 import {firebase} from '@react-native-firebase/database';
 import Styles from './Styles';
 const blackColor = '#434343';
 const beigeColor = '#F4F1E3';
 const backgroundImage = '../Images/BackgroundBlend.png';
+const arrowLeftImage = '../Images/arrowLeftBeige.png';
 const databaseRef = firebase
   .app()
   .database(
     'https://appcaragiale-default-rtdb.europe-west1.firebasedatabase.app/',
   );
 
-let subtitleStyle = {
-  fontSize: 14,
-  fontFamily: 'Inter-SemiBold',
-  color: blackColor,
-};
-
-let studentNameStyle = {
-  fontSize: 14,
-  fontFamily: 'Inter-Bold',
-  color: blackColor,
-};
-let rectangleStyle = {
-  color: beigeColor,
-  fontFamily: 'Inter-SemiBold',
-  fontSize: 15,
-  textAlign: 'center',
-};
 const rectangleHeader = (interiorText: string) => {
   return (
     <View
@@ -38,12 +30,12 @@ const rectangleHeader = (interiorText: string) => {
         backgroundColor: blackColor,
         borderRadius: 7,
       }}>
-      <Text style={rectangleStyle}>{interiorText}</Text>
+      <Text style={styles.rectangleStyle}>{interiorText}</Text>
     </View>
   );
 };
 
-function CustomGrades({route}: {route: any; navigation: any}) {
+function CustomGrades({route, navigation}: {route: any; navigation: any}) {
   const [loading, setLoading] = useState(true);
   const [students, setStudents] = useState([]);
   const [typeValues, setTypeValues]: any = useState({});
@@ -59,7 +51,7 @@ function CustomGrades({route}: {route: any; navigation: any}) {
           marginTop: '10%',
         }}>
         <View style={{width: 80, alignItems: 'center'}}>
-          <Text style={[studentNameStyle]}>{item.name}</Text>
+          <Text style={[styles.studentNameStyle]}>{item.name}</Text>
         </View>
         <View style={{width: 80, alignItems: 'center'}}>
           <TextInput
@@ -146,7 +138,7 @@ function CustomGrades({route}: {route: any; navigation: any}) {
     <View style={{flex: 1, backgroundColor: '#F6F2DB'}}>
       <ImageBackground style={{flex: 1}} source={require(backgroundImage)}>
         <View style={{flex: 1}}>
-          <View style={{flex: 1}}>
+          <View style={{flex: 12}}>
             <View
               style={{
                 height: 41,
@@ -175,9 +167,9 @@ function CustomGrades({route}: {route: any; navigation: any}) {
                   flexDirection: 'row',
                   marginTop: '3%',
                 }}>
-                <Text style={subtitleStyle}>H=Homework</Text>
-                <Text style={subtitleStyle}>P=Project</Text>
-                <Text style={subtitleStyle}>T=Test</Text>
+                <Text style={styles.subtitleStyle}>H=Homework</Text>
+                <Text style={styles.subtitleStyle}>P=Project</Text>
+                <Text style={styles.subtitleStyle}>T=Test</Text>
               </View>
               <View
                 style={{
@@ -197,6 +189,17 @@ function CustomGrades({route}: {route: any; navigation: any}) {
               />
             </View>
           </View>
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <TouchableNativeFeedback
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <ImageBackground
+                source={require(arrowLeftImage)}
+                style={{width: 35, height: 35, marginLeft: '5%'}}
+              />
+            </TouchableNativeFeedback>
+          </View>
         </View>
       </ImageBackground>
     </View>
@@ -204,3 +207,23 @@ function CustomGrades({route}: {route: any; navigation: any}) {
 }
 
 export default CustomGrades;
+
+let styles = StyleSheet.create({
+  subtitleStyle: {
+    fontSize: 14,
+    fontFamily: 'Inter-SemiBold',
+    color: blackColor,
+  },
+
+  studentNameStyle: {
+    fontSize: 14,
+    fontFamily: 'Inter-Bold',
+    color: blackColor,
+  },
+  rectangleStyle: {
+    color: beigeColor,
+    fontFamily: 'Inter-SemiBold',
+    fontSize: 15,
+    textAlign: 'center',
+  },
+});
