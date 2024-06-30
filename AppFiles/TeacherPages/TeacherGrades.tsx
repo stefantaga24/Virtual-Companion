@@ -5,6 +5,7 @@ import {
   View,
   Text,
   TouchableNativeFeedback,
+  FlatList,
 } from 'react-native';
 import {firebase} from '@react-native-firebase/database';
 
@@ -22,7 +23,11 @@ let textStyle = {
   fontFamily: 'Inter-ExtraBold',
   color: blackColor,
 };
-
+let classTextStyle = {
+  fontSize: 30,
+  fontFamily: 'Inter-ExtraBold',
+  color: blackColor,
+};
 function TeacherGrades({route, navigation}: {route: any; navigation: any}) {
   const [loading, setLoading] = useState(true);
   const [classes, setClasses] = useState();
@@ -42,6 +47,19 @@ function TeacherGrades({route, navigation}: {route: any; navigation: any}) {
     }
   }, [loading, id, classes]);
 
+  const renderDataItem = ({item}: any) => {
+    return (
+      <TouchableNativeFeedback
+        onPress={() => {
+          navigation.navigate('Select option', {currentClass: item});
+        }}>
+        <View>
+          <Text style={classTextStyle}>{item}</Text>
+        </View>
+      </TouchableNativeFeedback>
+    );
+  };
+
   if (loading) {
     return (
       <View style={{flex: 1, backgroundColor: '#F6F2DB'}}>
@@ -49,7 +67,6 @@ function TeacherGrades({route, navigation}: {route: any; navigation: any}) {
       </View>
     );
   }
-  console.log('STARTED');
   return (
     <View style={{flex: 1, backgroundColor: '#F6F2DB'}}>
       <ImageBackground style={{flex: 1}} source={require(backgroundImage)}>
@@ -58,7 +75,7 @@ function TeacherGrades({route, navigation}: {route: any; navigation: any}) {
             <View
               style={{
                 height: 32,
-                width: 167,
+                width: 200,
                 backgroundColor: blackColor,
                 borderRadius: 7,
                 justifyContent: 'center',
@@ -71,38 +88,10 @@ function TeacherGrades({route, navigation}: {route: any; navigation: any}) {
                   fontFamily: 'Inter-SemiBold',
                   fontSize: 20,
                 }}>
-                Grades
+                Choose class
               </Text>
             </View>
-            <TouchableNativeFeedback
-              onPress={() => {
-                navigation.navigate('SelectClassPage', {
-                  classes: classes,
-                  targetPage: 'Custom Grades',
-                });
-              }}>
-              <Text style={[textStyle, {marginTop: '10%'}]}>
-                Add Custom Grades
-              </Text>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback
-              onPress={() => {
-                navigation.navigate('SelectClassPage', {
-                  classes: classes,
-                  targetPage: 'Exam Grades',
-                });
-              }}>
-              <Text style={textStyle}>Add Exam Grades</Text>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback
-              onPress={() => {
-                navigation.navigate('SelectClassPage', {
-                  classes: classes,
-                  targetPage: 'Overview Grades',
-                });
-              }}>
-              <Text style={textStyle}>Overview Grades</Text>
-            </TouchableNativeFeedback>
+            <FlatList data={classes} renderItem={renderDataItem} />
           </View>
         </View>
       </ImageBackground>

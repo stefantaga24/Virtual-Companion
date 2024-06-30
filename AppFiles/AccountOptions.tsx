@@ -47,6 +47,8 @@ function AccountOptions({navigation}: {navigation: any}) {
     if (loading === false) {
       return;
     }
+    console.log('The email: ' + user.email);
+    console.log("At least I'm trying");
     var email: any = user.email;
     databaseRef
       .ref('Emails/' + email.replace('@', '').replace('.', ''))
@@ -54,10 +56,8 @@ function AccountOptions({navigation}: {navigation: any}) {
       .then(snapshot => {
         setAccountType(snapshot.val().accountType);
         setId(snapshot.val().id);
+        setLoading(false);
       });
-    if (accountType) {
-      setLoading(false);
-    }
   }, []);
 
   if (loading) {

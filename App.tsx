@@ -17,6 +17,7 @@ import SelectClassPage from './AppFiles/TeacherPages/SelectClassPage';
 import CustomGrades from './AppFiles/TeacherPages/CustomGrades';
 import OverviewGrades from './AppFiles/TeacherPages/OverviewGrades';
 import auth from '@react-native-firebase/auth';
+import SelectOption from './AppFiles/TeacherPages/SelectOption';
 
 const Stack = createNativeStackNavigator();
 
@@ -51,12 +52,9 @@ const MyApp = () => {
                 name="TeacherSchedule"
                 component={TeacherSchedule}
               />
-              <Stack.Screen
-                name="SelectClassPage"
-                component={SelectClassPage}
-              />
               <Stack.Screen name="Custom Grades" component={CustomGrades} />
               <Stack.Screen name="Overview Grades" component={OverviewGrades} />
+              <Stack.Screen name="Select option" component={SelectOption} />
             </Stack.Group>
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="Schedule" component={Schedule} />
