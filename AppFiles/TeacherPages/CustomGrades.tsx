@@ -10,14 +10,13 @@ import {
   TouchableNativeFeedback,
 } from 'react-native';
 
-function extractNumbers(input) {
+function extractNumbers(input: any) {
   let numbers = input.match(/\d+/g);
   if (!numbers) {
-      return '';
+    return '';
   }
   return numbers.join('');
 }
-
 
 import {firebase} from '@react-native-firebase/database';
 import Styles from './Styles';
@@ -52,8 +51,11 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
   const [dateValues, setDateValues]: any = useState({});
   const [gradeValues, setGradeValues]: any = useState({});
   let currentClass = route.params.currentClass;
+  let subject = route.params.subject;
+  console.log(subject);
   var renderGrade = ({item}: any) => {
     let finalName = item.name.split(' ');
+    finalName = finalName[0] + ' ' + finalName[1][0] + '.';
     return (
       <View
         style={{
@@ -63,9 +65,7 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
         }}>
         <View
           style={{width: 80, alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={[styles.studentNameStyle]}>
-            {finalName[0] + ' ' + finalName[1][0] + '.'}
-          </Text>
+          <Text style={[styles.studentNameStyle]}>{finalName}</Text>
         </View>
         <View style={{alignItems: 'center', flexDirection: 'row'}}>
           <TextInput
@@ -181,6 +181,7 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
             finalStudents.push({
               studentId: studentId,
               name: snapshot.val()[studentId].Name,
+              grades: snapshot.val()[studentId].Grades,
             });
             finalTypeValues[studentId] = {
               day: '',
@@ -242,7 +243,7 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
                 }}>
                 <TouchableNativeFeedback
                   onPress={() => {
-                    console.log(dateValues);
+                    pushGrades();
                   }}>
                   <Text
                     style={{
@@ -275,7 +276,7 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
             </View>
           </View>
           <TabGrades
-            currentClass={currentClass}
+            params={route.params}
             navigation={navigation}
             pageName={'Custom Grades'}
           />
@@ -283,6 +284,52 @@ function CustomGrades({route, navigation}: {route: any; navigation: any}) {
       </ImageBackground>
     </View>
   );
+
+  function pushGrades() {
+    // This needs to be refactored in many ways
+    // Need to add: Checking for the correct dates
+    // Need to add: handling for if the user does not have internet
+    // Need to add a module
+    return;
+    for (let i = 0; i < students.length; i++) {
+      let student = students[i];
+      let gradePosition = student.grades.length;
+      console.log(student.studentId);
+      databaseRef
+        .ref('Students/' + student.studentId + '/Grades/' + gradePosition)
+        .set({
+          Date:
+            dateValues[student.studentId].day +
+            '/' +
+            dateValues[student.studentId].month +
+            '/' +
+            dateValues[student.studentId].year,
+          Value: gradeValues[student.studentId],
+          Subject: subject,
+        });
+      students[i].grades.push({
+        Date:
+          dateValues[student.studentId].day +
+          '/' +
+          dateValues[student.studentId].month +
+          '/' +
+          dateValues[student.studentId].year,
+        Value: gradeValues[student.studentId],
+        Subject: subject,
+      });
+    }
+    // Clear the grades
+    const nextGradeValues: any = {};
+    for (const key in gradeValues) {
+      nextGradeValues[key] = '';
+    }
+    setGradeValues(nextGradeValues);
+    const nextDateValues: any = {};
+    for (const key in dateValues) {
+      nextDateValues[key] = {day: '', month: '', year: ''};
+    }
+    setDateValues(nextDateValues);
+  }
 }
 export default CustomGrades;
 

@@ -31,6 +31,7 @@ let classTextStyle = {
 function TeacherGrades({route, navigation}: {route: any; navigation: any}) {
   const [loading, setLoading] = useState(true);
   const [classes, setClasses] = useState();
+  const [subject, setSubject] = useState();
   var id = route.params.id;
   useEffect(() => {
     if (loading === false) {
@@ -41,6 +42,7 @@ function TeacherGrades({route, navigation}: {route: any; navigation: any}) {
       .once('value')
       .then(snapshot => {
         setClasses(snapshot.val().classes);
+        setSubject(snapshot.val().Subject);
       });
     if (classes) {
       setLoading(false);
@@ -51,7 +53,10 @@ function TeacherGrades({route, navigation}: {route: any; navigation: any}) {
     return (
       <TouchableNativeFeedback
         onPress={() => {
-          navigation.navigate('Custom Grades', {currentClass: item});
+          navigation.navigate('Custom Grades', {
+            currentClass: item,
+            subject: subject,
+          });
         }}>
         <View>
           <Text style={classTextStyle}>{item}</Text>

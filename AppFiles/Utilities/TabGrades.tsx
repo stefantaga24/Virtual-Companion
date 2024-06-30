@@ -9,11 +9,11 @@ const arrowLeftImage = '../Images/arrowLeftBeige.png';
 const beigeColor = '#F4F1E3';
 
 function TabGrades({
-  currentClass,
+  params,
   navigation,
   pageName,
 }: {
-  currentClass: any;
+  params: any;
   navigation: any;
   pageName: any;
 }) {
@@ -39,7 +39,7 @@ function TabGrades({
           subtitle={'Add grades'}
           image={'addGradesIcon'}
           targetPage="Custom Grades"
-          currentClass={currentClass}
+          params={params}
           transparent={pageName !== 'Custom Grades'}
         />
       </View>
@@ -49,7 +49,7 @@ function TabGrades({
           subtitle={'Edit grades'}
           image={'editGradesIcon'}
           targetPage="Edit Grades"
-          currentClass={currentClass}
+          params={params}
           transparent={pageName !== 'Edit Grades'}
         />
       </View>
@@ -59,7 +59,7 @@ function TabGrades({
           subtitle={'Overview'}
           image={'overviewGradesIcon'}
           targetPage="Overview Grades"
-          currentClass={currentClass}
+          params={params}
           transparent={pageName !== 'Overview Grades'}
         />
       </View>
@@ -73,14 +73,14 @@ function TabOption({
   subtitle,
   image,
   targetPage,
-  currentClass,
+  params,
   transparent,
 }: {
   navigation: any;
   subtitle: string;
   image: string;
   targetPage: string;
-  currentClass: any;
+  params: any;
   transparent: any;
 }) {
   let iconWidth = 40;
@@ -97,7 +97,7 @@ function TabOption({
   return (
     <TouchableNativeFeedback
       onPress={() => {
-        navigation.navigate(targetPage, {currentClass: currentClass});
+        navigation.navigate(targetPage, {params});
       }}>
       <View
         style={{

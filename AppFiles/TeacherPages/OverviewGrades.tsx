@@ -51,6 +51,8 @@ function OverviewGrades({route, navigation}: {route: any; navigation: any}) {
     );
   };
   var renderStudentData = ({item}: any) => {
+    let finalName = item.name.split(' ');
+    finalName = finalName[0] + ' ' + finalName[1][0] + '.';
     return (
       <View
         style={{
@@ -59,7 +61,7 @@ function OverviewGrades({route, navigation}: {route: any; navigation: any}) {
           marginTop: '10%',
         }}>
         <View style={{width: 80, alignItems: 'center'}}>
-          <Text style={[studentNameStyle]}>{item.name}</Text>
+          <Text style={[studentNameStyle]}>{finalName}</Text>
         </View>
         <View>
           <FlatList
